@@ -20,6 +20,9 @@ NodoTransaccion *ArbolTransacciones::insertarNodoTransaccion(NodoTransaccion *no
     if(nodoPadre == nullptr){ //si el arbol está vacío o si el nodoPadre inicial no tiene nodos hijos, el nuevo nodoPadre será el nodo que queríamos añadir
         nodoPadre = nodo;
     }else {
+        if(nodoPadre->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<= 3600) cantTHora++;
+        if(nodoPadre->transaccion->getUbicacion() != nodo->transaccion->getUbicacion() && nodoPadre->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<= 3600)
+        cantUbi++;
         //si no esta vacio el arbol, se compara si el dato del nodo que se quiere ingresar es mayor o menor que el nodoPadre
         if(nodo->transaccion->getID() < nodoPadre->transaccion->getID()){
             nodoPadre->tizquierda = insertarNodoTransaccionRecursivo(nodoPadre->tizquierda,nodo);
@@ -54,6 +57,16 @@ int ArbolTransacciones::getFactorBalanceo(NodoTransaccion *nodo)
     if(nodo->tizquierda == nullptr) return getAlturaNodo(nodo->tderecha);
 
     return abs(getAlturaNodo(nodo->tizquierda) - getAlturaNodo(nodo->tderecha));
+}
+
+int ArbolTransacciones::getCantTHora()
+{
+    return cantTHora;
+}
+
+int ArbolTransacciones::getCantUbi()
+{
+    return cantUbi;
 }
 
 //modifica el valor de la altura del nodo actual

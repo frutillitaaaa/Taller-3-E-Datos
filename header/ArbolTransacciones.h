@@ -6,7 +6,8 @@ class ArbolTransacciones {
 
     private:
         NodoTransaccion* nodoPadre;
-        
+        int cantTHora;
+        int cantUbi;
         void setAlturaNodo(NodoTransaccion* nodo);
     
     public:
@@ -14,6 +15,8 @@ class ArbolTransacciones {
         ~ArbolTransacciones();
         int getAlturaNodo(NodoTransaccion* nodo);
         int getFactorBalanceo(NodoTransaccion* nodo);
+        int getCantTHora();
+        int getCantUbi();
         NodoTransaccion* insertarNodoTransaccion(NodoTransaccion* nodo);
         NodoTransaccion* insertarNodoTransaccionRecursivo(NodoTransaccion* aux, NodoTransaccion* nodo);
         NodoTransaccion* obtenerNodoPadre();

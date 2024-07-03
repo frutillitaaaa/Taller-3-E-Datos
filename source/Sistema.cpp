@@ -61,8 +61,9 @@ void Sistema::generarReportes()
 
 void Sistema::detectarTransaccionesSospechosas(NodoTransaccion *nodo)
 {
-    int cantT = 0;
-    int cantUbi = 0;
-    arbolDecision->esSospechoso(arbolDecision->agregarNodo(),nodo->transaccion->getMontoTransaccion(),cantT,cantUbi);
-   
+    if(nodo == nullptr|| arbol == nullptr || arbolDecision == nullptr || nodo->transaccion == nullptr) return;
+    bool sospecha = arbolDecision->esSospechoso(arbolDecision->agregarNodo(),nodo->transaccion->getMontoTransaccion(),arbol->getCantTHora(),arbol->getCantUbi());
+    if(sospecha)
+    cout<<"Se ha detectado una transaccion sospechosa: "<<nodo->transaccion->getID()<<" - "<<nodo->transaccion->getMontoTransaccion()<<
+    " - "<<nodo->transaccion->getUbicacion()<< " - "<<nodo->transaccion->getCuentaDeOrigen()<<" - "<<nodo->transaccion->getCuentaDeDestino()<<endl;
 }
