@@ -21,5 +21,6 @@ class ArbolTransacciones {
         void liberarMemoria(NodoTransaccion* nodo);
         NodoTransaccion* rotacionDerecha(NodoTransaccion* nodo);
         NodoTransaccion* rotacionIzquierda(NodoTransaccion* nodo);
+        void recorrerArbol(NodoTransaccion* nodo);
 
 };

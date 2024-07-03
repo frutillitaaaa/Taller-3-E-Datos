@@ -13,10 +13,16 @@ int main(int argc, char const *argv[])
 {
     Sistema* sistema = new Sistema();
     
-    sistema->registrarTransaccion("1189694111","1292424894",10242400,"La Serena");
-    sistema->registrarTransaccion("11111","129894",1000,"La Serena");
-    sistema->registrarTransaccion("1125611","12967657",105550,"La Serena");
+    Transaccion* t = sistema->registrarTransaccion("1189694111","1292424894",10242400,"La Serena");
+    Transaccion* t1 = sistema->registrarTransaccion("111","129894",1000,"La Serena");
+    Transaccion* t2 = sistema->registrarTransaccion("1121","12967657",105550,"La Serena");
 
+    cout<<sistema->buscarTransaccion(sistema->obtenerID(t))<<endl;
+    cout<<sistema->buscarTransaccion(sistema->obtenerID(t1))<<endl;
+    cout<<sistema->buscarTransaccion(sistema->obtenerID(t2))<<endl;
+
+
+    //sistema->generarReportes();
     delete sistema;
 
     return 0;

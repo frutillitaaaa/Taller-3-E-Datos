@@ -16,14 +16,16 @@ ArbolTransacciones::~ArbolTransacciones()
 // Función de inserción de Nodo transacción en el árbol de transacciones
 NodoTransaccion *ArbolTransacciones::insertarNodoTransaccion(NodoTransaccion *nodo)
 {
-     if(nodoPadre == nullptr) //si el arbol está vacío o si el nodoPadre inicial no tiene nodos hijos, el nuevo nodoPadre será el nodo que queríamos añadir
+    
+    if(nodoPadre == nullptr){ //si el arbol está vacío o si el nodoPadre inicial no tiene nodos hijos, el nuevo nodoPadre será el nodo que queríamos añadir
         nodoPadre = nodo;
-    else {
+    }else {
         //si no esta vacio el arbol, se compara si el dato del nodo que se quiere ingresar es mayor o menor que el nodoPadre
-        if(nodo->idTransaccion < nodoPadre->idTransaccion)
+        if(nodo->transaccion->getID() < nodoPadre->transaccion->getID()){
             nodoPadre->tizquierda = insertarNodoTransaccionRecursivo(nodoPadre->tizquierda,nodo);
-        else if(nodo->idTransaccion > nodoPadre->idTransaccion)
+        }else{
             nodoPadre->tderecha = insertarNodoTransaccionRecursivo(nodoPadre->tderecha,nodo);
+        }
     }
     setAlturaNodo(nodoPadre);
 
@@ -76,9 +78,9 @@ NodoTransaccion* ArbolTransacciones::insertarNodoTransaccionRecursivo(NodoTransa
     if(aux == nullptr) //si el arbol está vacío o si el nodoPadre inicial no tiene nodos hijos, el nuevo nodoPadre será el nodo que queríamos añadir
         aux = nodo;
     //si no esta vacio el arbol, se compara si el dato del nodo que se quiere ingresar es mayor o menor que el nodoPadre
-    if(nodo->idTransaccion < aux->idTransaccion)
+    if(nodo->transaccion->getID() < aux->transaccion->getID())
         aux->tizquierda = insertarNodoTransaccionRecursivo(aux->tizquierda,nodo);
-    else if(nodo->idTransaccion > aux->idTransaccion)
+    else if(nodo->transaccion->getID() > aux->transaccion->getID())
         aux->tderecha = insertarNodoTransaccionRecursivo(aux->tderecha,nodo);
 
     setAlturaNodo(aux);
@@ -86,27 +88,26 @@ NodoTransaccion* ArbolTransacciones::insertarNodoTransaccionRecursivo(NodoTransa
     int factorBalanceo = getFactorBalanceo(aux);
     
     if(factorBalanceo > 1){
-        cout<<"hhhh"<<endl;
 
         //RR
-        if(nodo->idTransaccion > aux->tderecha->idTransaccion && nodo->idTransaccion > aux->idTransaccion){
+        if(nodo->transaccion->getID() > aux->tderecha->transaccion->getID() && nodo->transaccion->getID() > aux->transaccion->getID()){
             return rotacionIzquierda(aux);
         }
 
         //RL
-        else if(nodo->idTransaccion < aux->tderecha->idTransaccion && nodo->idTransaccion > aux->idTransaccion){
+        else if(nodo->transaccion->getID() < aux->tderecha->transaccion->getID() && nodo->transaccion->getID() > aux->transaccion->getID()){
             aux->tderecha = rotacionDerecha(aux->tderecha);
             return rotacionIzquierda(aux);
         }
 
         //LL
-        else if(nodo->idTransaccion < aux->tderecha->idTransaccion && nodo->idTransaccion < aux->idTransaccion){
+        else if(nodo->transaccion->getID() < aux->tderecha->transaccion->getID() && nodo->transaccion->getID() < aux->transaccion->getID()){
             rotacionDerecha(aux); 
         }
 
 
         //LR  
-        else if(nodo->idTransaccion > aux->tderecha->idTransaccion && nodo->idTransaccion < aux->idTransaccion){
+        else if(nodo->transaccion->getID() > aux->tderecha->transaccion->getID() && nodo->transaccion->getID() < aux->transaccion->getID()){
             aux->tizquierda = rotacionIzquierda(aux->tizquierda);
             return rotacionDerecha(aux);
         }     
@@ -123,21 +124,20 @@ NodoTransaccion *ArbolTransacciones::obtenerNodoPadre()
 
 //-SIN ERRRORES-
 //Busca las transacciones en el arbol de transacciones de acuerdo al id de transaccion
-bool ArbolTransacciones::buscarNodoTransaccion(NodoTransaccion* aux, int idTransaccion)
+bool ArbolTransacciones::buscarNodoTransaccion(NodoTransaccion* nodo, int idTransaccion)
 {
-    if(aux != nullptr){
-        cout<<"hola"<<endl;
-        if(aux->idTransaccion == idTransaccion) return true;
-        if(idTransaccion < aux->idTransaccion){
-            cout<<"por aqui"<<endl;
-            return buscarNodoTransaccion(aux->tizquierda, idTransaccion);
-        } 
-        if(idTransaccion > aux->idTransaccion){
-            cout<<"por aca"<<endl;
-            return buscarNodoTransaccion(aux->tderecha, idTransaccion);
-        } 
+    if(nodo == nullptr){
+        return false;
     }
-    return false;
+    cout<<"referencia: "<<nodo->transaccion->getID()<<" buscando: "<<idTransaccion<<endl;
+    
+    if(nodo->transaccion->getID() == idTransaccion) {
+        return true;
+    } else if(idTransaccion < nodo->transaccion->getID()){
+        return buscarNodoTransaccion(nodo->tizquierda, idTransaccion);
+    } else{
+        return buscarNodoTransaccion(nodo->tderecha, idTransaccion);
+    } 
 }
 
 //presenta errores
@@ -179,4 +179,14 @@ NodoTransaccion *ArbolTransacciones::rotacionIzquierda(NodoTransaccion *nodo)
     setAlturaNodo(aux);
 
     return aux;
+}
+
+void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo)
+{
+    if(nodo != nullptr){
+        cout<<nodo->transaccion->getID()<<"-"<<nodo->transaccion->getMontoTransaccion()<<endl;
+        recorrerArbol(nodo->tizquierda);
+        recorrerArbol(nodo->tderecha);
+    }
+    
 }

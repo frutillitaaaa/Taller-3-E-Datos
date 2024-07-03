@@ -1,8 +1,10 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <iomanip>
 
 #include "../header/Transaccion.h"
+#include "Transaccion.h"
 
 using namespace std;
 
@@ -35,7 +37,7 @@ int Transaccion::getMontoTransaccion() const
     return monto;
 }
 
-tm Transaccion::getFechaYHoraTransaccion() const
+time_t Transaccion::getFechaYHoraTransaccion() const
 {
     return fechaHoraTransaccion;
 }
@@ -69,8 +71,7 @@ void Transaccion::setFechaYHoraTransaccion()
 {
     auto horaActual = chrono::system_clock::now();
     time_t tiempo = chrono::system_clock::to_time_t(horaActual);
-    tm* datosTiempo = localtime(&tiempo);
-    this->fechaHoraTransaccion = *datosTiempo;
+    this->fechaHoraTransaccion = tiempo;
 }
 
 void Transaccion::setUbicacion(string ubicacion)
@@ -79,26 +80,21 @@ void Transaccion::setUbicacion(string ubicacion)
 }
 
 //Cambia el formato de la fecha y hora de la transaccion para poder operarlo como int
-int Transaccion::cambiarFormatoFecha(tm fechaHoraTransaccion)
+int Transaccion::cambiarFormatoFecha(time_t fechaHoraTransaccion)
 {
-    int fechaYHoraActual = fechaHoraTransaccion.tm_mday+ fechaHoraTransaccion.tm_mon+ fechaHoraTransaccion.tm_year
-    +fechaHoraTransaccion.tm_hour+fechaHoraTransaccion.tm_min + fechaHoraTransaccion.tm_sec;
-    return fechaYHoraActual;
+    tm* hora = localtime(&fechaHoraTransaccion);
+    int tiempo = hora->tm_sec+ hora->tm_min*100+hora->tm_hour*10000+hora->tm_mday*1000000+(hora->tm_mon +1)*100000000+(hora->tm_year+1990)*10000000000;
+    return tiempo;
 }
 
 //el id se genera con la concatenacion de la suma del monto de la transaccion y la fecha de la misma con la cuenta de origen y de destino
 //con el fin de evitar duplicados, ya que los numeros de cuenta no se repiten
 void Transaccion::generarID()
 {
-    /*
-    int value = getMontoTransaccion() + cambiarFormatoFecha(getFechaYHoraTransaccion());
-    ostringstream o;
-    o<<value<<cuentaDeOrigen<<cuentaDeDestino;
-    string valor = o.str();
-
-    this->idTransaccion = stoi(valor);
-     */
-    int value = getMontoTransaccion() + cambiarFormatoFecha(getFechaYHoraTransaccion());
-
-    this->idTransaccion = value;
+    int horaEnNumero = cambiarFormatoFecha(fechaHoraTransaccion);
+    this->idTransaccion = monto*100+horaEnNumero;
+}
+bool Transaccion::esSospechosa()
+{
+    return sospechosa;
 }

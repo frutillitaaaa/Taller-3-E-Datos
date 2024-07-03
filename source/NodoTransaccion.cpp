@@ -8,7 +8,6 @@ NodoTransaccion::NodoTransaccion(Transaccion* transaccion){
     else{
         this->transaccion = transaccion;
         this->altura = 1;
-        this->idTransaccion = transaccion->getID();
         this->tderecha = NULL;
         this->tizquierda = NULL;
     }

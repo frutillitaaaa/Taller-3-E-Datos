@@ -14,8 +14,9 @@ class Transaccion {
         string cuentaDeOrigen;
         string cuentaDeDestino;
         int monto;
-        tm fechaHoraTransaccion;
+        time_t fechaHoraTransaccion;
         string ubicacion;
+        bool sospechosa;
         
 
     public: 
@@ -24,7 +25,7 @@ class Transaccion {
         string getCuentaDeOrigen() const;
         string getCuentaDeDestino() const;
         int getMontoTransaccion() const;
-        tm getFechaYHoraTransaccion() const;
+        time_t getFechaYHoraTransaccion() const;
         string getUbicacion() const;
         int getID() const;
         void setCuentaDeOrigen(string cuentaDeOrigen);
@@ -32,7 +33,8 @@ class Transaccion {
         void setMontoTransaccion(int monto);
         void setFechaYHoraTransaccion();
         void setUbicacion(string ubicacion);
-        int cambiarFormatoFecha(tm fechaHoraTransaccion);
+        int cambiarFormatoFecha(time_t fechaHoraTransaccion);
         void generarID();
+        bool esSospechosa();
 
 };
