@@ -33,6 +33,7 @@ class Sistema {
         void generarReportes();
         void actualizarDatos();
         void detectarTransaccionesSospechosas(NodoTransaccion* nodo);
+        NodoTransaccion* obtenerRaiz();
 
 };
 

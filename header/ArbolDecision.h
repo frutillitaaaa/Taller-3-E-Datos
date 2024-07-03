@@ -19,6 +19,7 @@ class ArbolDecision {
         void agregarCriterio(NodoDecision* nodo, string criterio1, string criterio2);
         NodoDecision* agregarNodo();
         bool esSospechoso(NodoDecision *nodo, int montoT, int cantT, int cantUbi);
+        NodoDecision* obtenerNodoPadre();
         
 
 
