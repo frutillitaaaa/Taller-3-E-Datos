@@ -83,7 +83,7 @@ void Transaccion::setUbicacion(string ubicacion)
 int Transaccion::cambiarFormatoFecha(time_t fechaHoraTransaccion)
 {
     tm* hora = localtime(&fechaHoraTransaccion);
-    int tiempo = hora->tm_sec+ hora->tm_min*100+hora->tm_hour*10000+hora->tm_mday*1000000+(hora->tm_mon +1)*100000000+(hora->tm_year+1990)*10000000000;
+    int tiempo = hora->tm_sec+ hora->tm_min*100+hora->tm_hour*10000+hora->tm_mday*1000000+(hora->tm_mon +1)*100000000+(hora->tm_year+1900)*10000000000;
     return tiempo;
 }
 
@@ -92,9 +92,19 @@ int Transaccion::cambiarFormatoFecha(time_t fechaHoraTransaccion)
 void Transaccion::generarID()
 {
     int horaEnNumero = cambiarFormatoFecha(fechaHoraTransaccion);
-    this->idTransaccion = monto*100+horaEnNumero;
+    this->idTransaccion = abs(monto*100+horaEnNumero);
 }
 bool Transaccion::esSospechosa()
 {
     return sospechosa;
+}
+
+string Transaccion::obtenerFechaLegible()
+{
+    tm* hora = localtime(&fechaHoraTransaccion);
+
+    char formattedTime[80];
+    strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", hora);
+    
+    return string(formattedTime);
 }

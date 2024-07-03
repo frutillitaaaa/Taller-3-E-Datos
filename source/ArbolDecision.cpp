@@ -82,3 +82,18 @@ NodoDecision *ArbolDecision::obtenerNodoPadre()
 {
     return nodoPadre;
 }
+
+int ArbolDecision::obtenerMontoSospecha()
+{
+    return montoSospecha;
+}
+
+int ArbolDecision::obtenerCantTSospecha()
+{
+    return cantTSospecha;
+}
+
+int ArbolDecision::obtenerCantUbiSospecha()
+{
+    return cantUbiSospecha;
+}

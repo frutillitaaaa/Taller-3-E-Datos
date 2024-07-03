@@ -197,7 +197,8 @@ NodoTransaccion *ArbolTransacciones::rotacionIzquierda(NodoTransaccion *nodo)
 void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo)
 {
     if(nodo != nullptr){
-        cout<<nodo->transaccion->getID()<<"-"<<nodo->transaccion->getMontoTransaccion()<<endl;
+        cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
+        <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()<<"\n--------------"<<endl;
         recorrerArbol(nodo->tizquierda);
         recorrerArbol(nodo->tderecha);
     }

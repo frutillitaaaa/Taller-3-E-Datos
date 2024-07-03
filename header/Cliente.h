@@ -2,6 +2,8 @@
 #define CLIENTE_H
 
 #include "Transaccion.h"
+#include "ArbolDecision.h"
+#include "ArbolTransacciones.h"
 
 #include <iostream>
 
@@ -10,10 +12,21 @@ using namespace std;
 class Cliente {
 
     private:
-        string cuentaDeOrigen;
+        string nombre;
+        string cuenta;
+        ArbolDecision* arbolDecision;
+        ArbolTransacciones* arbolTransacciones;
 
     public:
-        Cliente();
+        Cliente(string nombre, string cuenta);
+        ~Cliente();
+        ArbolDecision* getArbolDecision();
+        void setArbolDecision(ArbolDecision* a);
+        ArbolTransacciones* getArbolTransaccion();
+        void setArbolTransaccion(ArbolTransacciones* a);
+        void registroDeTransacciones();
+        string getCuenta();
+        string getNombre();
 };
 
 #endif

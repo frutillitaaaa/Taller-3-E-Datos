@@ -1,24 +1,23 @@
 #include "../header/Sistema.h"
 #include "Sistema.h"
 
-Sistema::Sistema()
+Sistema::Sistema(Cliente* c)
 {
-    arbol = new ArbolTransacciones();
-    arbolDecision = new ArbolDecision();
+    cliente = c;
+    arbolDecision = c->getArbolDecision();
+    arbol = c->getArbolTransaccion();
 
 }
 
 Sistema::~Sistema()
 {
-    delete arbol; 
-    delete arbolDecision;
 }
 
-Transaccion* Sistema::registrarTransaccion(string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion)
+Transaccion* Sistema::registrarTransaccion(string cuentaDeDestino, int monto, string ubicacion)
 {
     Transaccion* transaccion = nullptr;
     try{
-        transaccion = new Transaccion(cuentaDeOrigen,cuentaDeDestino,monto,ubicacion);
+        transaccion = new Transaccion(cliente->getCuenta(),cuentaDeDestino,monto,ubicacion);
         NodoTransaccion* nodo = new NodoTransaccion(transaccion);
         nodoPadre = arbol->insertarNodoTransaccion(nodo);
         
@@ -53,10 +52,34 @@ void Sistema::modificarCriteriosDeTransaccionesSospechosas(int montoTransaccion,
     this->cantUbiSospecha = cantUbisDistintas;
 }
 
+int Sistema::obtenerMontoTSospechosa()
+{
+    return arbolDecision->obtenerMontoSospecha();
+}
+
+int Sistema::obtenerCantTSospechosa()
+{
+    return arbolDecision->obtenerCantTSospecha();
+}
+
+int Sistema::obtenerCantUbiSospechosa()
+{
+    return arbolDecision->obtenerCantUbiSospecha();
+}
+
 void Sistema::generarReportes()
 {
-    if(nodoPadre == nullptr) return;
-    arbol->recorrerArbol(nodoPadre);
+    if(cliente == nullptr){
+        cerr<<"No hay cliente"<<endl;
+        return;
+    } else if(arbol == nullptr){
+        cerr<<"Arbol de transacciones nulo"<<endl;
+        return;
+    } else if(arbol->obtenerNodoPadre() == nullptr){
+        cout<<"Arbol vacio"<<endl;
+    }
+
+    cliente->registroDeTransacciones();
 }
 
 void Sistema::detectarTransaccionesSospechosas(NodoTransaccion *nodo)
