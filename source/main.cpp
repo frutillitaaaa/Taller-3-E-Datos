@@ -156,6 +156,9 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
     cout<<"Cantidad de Ubicaciones distintas en un dia hora mayor a "<<cantUbiDistintas<<endl;
 
     int opcion;
+    bool validado = false;
+    bool validado1 = false;
+    bool validado2 = false;
 
     do{
         cout<<"Seleccione el criterio de sospecha que desea modificar\n1) Monto de Transaccion\n2) Cantidad de Transacciones en una hora"<<
@@ -167,8 +170,6 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
             case 1:
                 cout<<"--- Modificar Monto de Sospecha ---"<<endl;
                 cout<<"Ingrese el monto que considera sospechoso: "<<endl;
-
-                bool validado = false;
 
                 do{
                     cout<<"Ingrese el monto que considera sospechoso: "<<endl;
@@ -186,7 +187,6 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
                 break;
             case 2:
                 cout<<"--- Modificar Cantidad de Transacciones en una hora ---"<<endl;
-                validado = false;
                 do{
                     cout<<"Ingrese la cantidad que considera sospechosa: "<<endl;
                     cin>>cantTSospechosa;
@@ -196,9 +196,9 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
                         cin.ignore(numeric_limits<streamsize>::max(), '\n');
                         cout<<"El dato ingresado no es valido. Debe ingresar un numero entero"<<endl;
                     } else{
-                        validado = true;
+                        validado1 = true;
                     }
-                }while(!validado);
+                }while(!validado1);
                 break;
             case 3:
                 cout<<"--- Modificar Cantidad de Ubicaciones Distintas en un dia ---"<<endl;
@@ -212,9 +212,9 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
                         cin.ignore(numeric_limits<streamsize>::max(), '\n');
                         cout<<"El dato ingresado no es valido. Debe ingresar un numero entero"<<endl;
                     } else{
-                        validado = true;
+                        validado2 = true;
                     }
-                }while(!validado);
+                }while(!validado2);
                 break;
             case 0:
                 cout<<"Saliendo"<<endl;
@@ -246,7 +246,11 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
     }  
 }
 
-void verHistorialTSospechosas(Sistema* sistema){}
+void verHistorialTSospechosas(Sistema* sistema){
+    cout<<"Ver Historial Transacciones Sospechosas"<<endl;
+
+    sistema->detectarTransaccionesSospechosas(sistema->obtenerRaiz());
+}
 
 void verHistorialCompleto(Sistema* sistema){
     cout<<"Ver Historial Completo de Transacciones"<<endl;
@@ -295,16 +299,12 @@ void menuOpcionesBanco(Sistema* sistema){
 
 }
 
-
-
 int main(int argc, char const *argv[])
 {
     Cliente* c = menuInicioSesion();
     Sistema* sistema = new Sistema(c);
 
     menuOpcionesBanco(sistema);
-
-    
 
     delete sistema;
 

@@ -88,10 +88,11 @@ void Sistema::detectarTransaccionesSospechosas(NodoTransaccion *nodo)
     if(nodo == nullptr|| arbol == nullptr || arbolDecision == nullptr || nodo->transaccion == nullptr){ 
         return;
     }
-    bool sospecha = arbolDecision->esSospechoso(arbolDecision->obtenerNodoPadre(),nodo->transaccion->getMontoTransaccion(),arbol->getCantTHora(),arbol->getCantUbi());
+    bool sospecha = arbolDecision->esSospechoso(arbolDecision->obtenerNodoPadre(),nodo,nodo->transaccion->getMontoTransaccion(),arbol->obtenerCantTHora(),arbol->obtenerCantUbi());
     if(sospecha){
-    cout<<"Se ha detectado una transaccion sospechosa: "<<nodo->transaccion->getID()<<" - "<<nodo->transaccion->getMontoTransaccion()<<
-    " - "<<nodo->transaccion->getUbicacion()<< " - "<<nodo->transaccion->getCuentaDeOrigen()<<" - "<<nodo->transaccion->getCuentaDeDestino()<<endl;
+        nodo->transaccion->setSospecha(sospecha);
+        cout<<"Se ha detectado una transaccion sospechosa: "<<nodo->transaccion->getID()<<" - "<<nodo->transaccion->getMontoTransaccion()<<
+        " - "<<nodo->transaccion->getUbicacion()<< " - "<<nodo->transaccion->getCuentaDeOrigen()<<" - "<<nodo->transaccion->getCuentaDeDestino()<<endl;
     }else{cout<<"No se detecto ninguna transaccion sospechosa"<<endl;}
 }
 

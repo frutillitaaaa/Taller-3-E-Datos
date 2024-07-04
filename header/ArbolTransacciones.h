@@ -15,8 +15,10 @@ class ArbolTransacciones {
         ~ArbolTransacciones();
         int getAlturaNodo(NodoTransaccion* nodo);
         int getFactorBalanceo(NodoTransaccion* nodo);
-        int getCantTHora();
-        int getCantUbi();
+        int obtenerCantTHora();
+        int obtenerCantUbi();
+        void contarTEnHora(NodoTransaccion* nodo);
+        void contarUbiEnDia(NodoTransaccion* nodo);
         NodoTransaccion* insertarNodoTransaccion(NodoTransaccion* nodo);
         NodoTransaccion* insertarNodoTransaccionRecursivo(NodoTransaccion* aux, NodoTransaccion* nodo);
         NodoTransaccion* obtenerNodoPadre();

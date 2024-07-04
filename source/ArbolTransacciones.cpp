@@ -59,15 +59,52 @@ int ArbolTransacciones::getFactorBalanceo(NodoTransaccion *nodo)
     return abs(getAlturaNodo(nodo->tizquierda) - getAlturaNodo(nodo->tderecha));
 }
 
-int ArbolTransacciones::getCantTHora()
+int ArbolTransacciones::obtenerCantTHora()
 {
+    cantTHora = 0;
+    contarTEnHora(nodoPadre);
     return cantTHora;
 }
 
-int ArbolTransacciones::getCantUbi()
+int ArbolTransacciones::obtenerCantUbi()
 {
+    cantUbi = 0;
+    contarUbiEnDia(nodoPadre);
     return cantUbi;
 }
+
+void ArbolTransacciones::contarTEnHora(NodoTransaccion *nodo)
+{
+    if(nodo == nullptr) return;
+
+    if(nodo->tizquierda != nullptr && nodo->tizquierda->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<3600){
+        cantTHora++;
+    }
+
+    if(nodo->tderecha != nullptr && nodo->tderecha->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<3600){
+        cantTHora++;
+    }
+    contarTEnHora(nodo->tizquierda);
+    contarTEnHora(nodo->tderecha);
+
+}
+
+void ArbolTransacciones::contarUbiEnDia(NodoTransaccion *nodo)
+{
+    if(nodo == nullptr) return;
+
+    if(nodo->tizquierda != nullptr && nodo->tizquierda->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<86400){
+        if(nodo->tizquierda->transaccion->getUbicacion() != nodo->transaccion->getUbicacion()) cantUbi++;
+    }
+
+    if(nodo->tderecha != nullptr && nodo->tderecha->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<86400){
+        if(nodo->tderecha->transaccion->getUbicacion() != nodo->transaccion->getUbicacion()) cantUbi++;
+    }
+
+    contarUbiEnDia(nodo->tizquierda);
+    contarUbiEnDia(nodo->tderecha);
+}
+
 
 //modifica el valor de la altura del nodo actual
 void ArbolTransacciones::setAlturaNodo(NodoTransaccion *nodo)

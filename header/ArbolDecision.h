@@ -2,6 +2,8 @@
 #define ARBOLDECISION_H
 
 #include "NodoDecision.h"
+#include "NodoTransaccion.h"
+#include "ArbolTransacciones.h"
 
 #include <iostream>
 
@@ -18,7 +20,7 @@ class ArbolDecision {
         ArbolDecision();
         void agregarCriterio(NodoDecision* nodo, string criterio1, string criterio2);
         NodoDecision* agregarNodo();
-        bool esSospechoso(NodoDecision *nodo, int montoT, int cantT, int cantUbi);
+        bool esSospechoso(NodoDecision *nodo,NodoTransaccion* nodoAEvaluar, int montoT, int cantT, int cantUbi);
         NodoDecision* obtenerNodoPadre();
         int obtenerMontoSospecha();
         int obtenerCantTSospecha();

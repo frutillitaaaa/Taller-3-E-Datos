@@ -18,6 +18,7 @@ Transaccion::Transaccion(string cuentaDeOrigen, string cuentaDeDestino, int mont
     setFechaYHoraTransaccion();
     this->ubicacion = ubicacion;
     generarID();
+    this->sospechosa = false;
 }
 
 Transaccion::~Transaccion()
@@ -39,7 +40,7 @@ int Transaccion::getMontoTransaccion() const
 
 time_t Transaccion::getFechaYHoraTransaccion() const
 {
-    return fechaHoraTransaccion;
+    return abs(fechaHoraTransaccion);
 }
 
 string Transaccion::getUbicacion() const
@@ -97,6 +98,11 @@ void Transaccion::generarID()
 bool Transaccion::esSospechosa()
 {
     return sospechosa;
+}
+
+void Transaccion::setSospecha(bool sospecha)
+{
+    this->sospechosa = sospecha;
 }
 
 string Transaccion::obtenerFechaLegible()

@@ -8,7 +8,6 @@ using namespace std;
 class NodoDecision {
 
     public:
-        bool sospecha;
         string criterio;
         NodoDecision* hIzquierda;
         NodoDecision* hDerecha;

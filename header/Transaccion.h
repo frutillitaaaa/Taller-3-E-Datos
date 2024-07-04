@@ -36,6 +36,7 @@ class Transaccion {
         int cambiarFormatoFecha(time_t fechaHoraTransaccion);
         void generarID();
         bool esSospechosa();
+        void setSospecha(bool sospecha);
         string obtenerFechaLegible();
 
 };
