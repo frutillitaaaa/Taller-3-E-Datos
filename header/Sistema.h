@@ -9,6 +9,8 @@
 #include "Cliente.h"
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -37,6 +39,9 @@ class Sistema {
         void obtenerTransaccionesSospechosas(NodoTransaccion* nodo);
         NodoTransaccion* obtenerRaiz();
         void establecerZonaHoraria(const char* zonaHoraria);
+        void actualizarDatos(NodoTransaccion* nodo,const string &nArchivo);
+        void actualizarDatosConRecursion(NodoTransaccion *nodoT, ofstream &archivo);
+        void cargarDatos(const string &archivo);
 
 };
 

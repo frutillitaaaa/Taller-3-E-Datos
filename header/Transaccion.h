@@ -38,5 +38,6 @@ class Transaccion {
         bool esSospechosa();
         void setSospecha(bool sospecha);
         string obtenerFechaLegible();
+        void setFechaYHoraTransaccion2(time_t fechaHora);
 
 };

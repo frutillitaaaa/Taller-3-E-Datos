@@ -112,3 +112,76 @@ void Sistema::establecerZonaHoraria(const char* zonaHoraria)
     setenv("TZ", zonaHoraria, 1);
     tzset();
 }
+
+void Sistema::actualizarDatos(NodoTransaccion* nodoT,const string &nArchivo)
+{
+    ofstream archivo(nArchivo);
+    if(archivo.is_open()){
+        
+        actualizarDatosConRecursion(nodoT,archivo);
+        archivo.close();
+        cout<<"Datos actualizados correctamente"<<endl;
+    } else{
+        cerr<<"Ocurrio un problema al abrir el archivo"<<endl;
+    }
+}
+
+void Sistema::actualizarDatosConRecursion(NodoTransaccion *nodoT, ofstream &archivo)
+{
+    if(nodoT != nullptr){
+            archivo<<nodoT->transaccion->getCuentaDeOrigen()<<","<<nodoT->transaccion->getCuentaDeDestino()<<
+            ","<<nodoT->transaccion->getMontoTransaccion()<<","<<nodoT->transaccion->getUbicacion()<<","<<nodoT->transaccion->getFechaYHoraTransaccion()<<endl;
+
+            actualizarDatosConRecursion(nodoT->tizquierda,archivo);
+            actualizarDatosConRecursion(nodoT->tderecha,archivo);        
+        }
+
+}
+
+void Sistema::cargarDatos(const string &nArchivo)
+{
+    string cuentaOrigen;
+    string cuentaDestino;
+    int monto;
+    string ubicacion;
+    string fechaYHoraSTR;
+    time_t fechaYHora = 0;
+    NodoTransaccion* nodoTemp = nullptr;
+    Transaccion* tTemp = nullptr;
+
+    ifstream archivo(nArchivo);
+
+    if(archivo.is_open()){
+        string linea;
+        while(getline(archivo,linea)){
+            stringstream ss(linea);
+
+            getline(ss,cuentaOrigen,',');
+            getline(ss,cuentaDestino,',');
+            ss>>monto;
+            getline(ss,ubicacion,',');
+            getline(ss,fechaYHoraSTR,',');
+
+            struct tm tm = {};
+
+            if (!fechaYHoraSTR.empty()) {
+                strptime(fechaYHoraSTR.c_str(), "%Y-%m-%d %H:%M:%S", &tm);
+                fechaYHora = mktime(&tm);
+            } else {
+                cerr << "Error: La cadena de fecha y hora está vacia." << endl;
+                continue; 
+            }
+
+            tTemp = new Transaccion(cuentaOrigen,cuentaDestino,monto,ubicacion);
+            tTemp->setFechaYHoraTransaccion2(fechaYHora);
+
+            nodoTemp = new NodoTransaccion(tTemp);
+            arbol->insertarNodoTransaccion(nodoTemp);
+
+        }
+
+        archivo.close();
+    } else{
+        cerr<<"Ocurrio un error al cargar el archivo"<<endl;
+    }
+}

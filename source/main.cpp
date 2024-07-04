@@ -139,10 +139,6 @@ void buscarTransaccion(Sistema* sistema){
     }
 }
 
-void modificarTransaccion(Sistema* sistema){
-
-}
-
 void modificarCriteriosTSospechosas(Sistema* sistema){
     cout<<"Modificar Criterios Transacciones Sospechosas"<<endl;
 
@@ -257,13 +253,14 @@ void verHistorialCompleto(Sistema* sistema){
     sistema->generarReportes();
 }
 
-void menuOpcionesBanco(Sistema* sistema){
+
+void menuOpcionesBanco(Sistema* sistema, string &archivo){
     int opcion;
 
     do{
-        cout<<"Seleccione lo que desea hacer\n1) Nueva Transaccion\n2) Buscar Transaccion\n3) Modificar Transaccion\n"<< 
-        "4) Modificar criterios de Transacciones Sospechosas\n5) Ver historial de Transacciones Sospechosas\n6) Ver historial"<<
-        "completo de Transacciones\n0) SALIR"<<endl;
+        cout<<"Seleccione lo que desea hacer\n1) Nueva Transaccion\n2) Buscar Transaccion\n3) Modificar criterios de Transacciones Sospechosas\n"<< 
+        "4) Ver historial de Transacciones Sospechosas\n5) Ver historial completo de Transacciones"<<
+        "\n0) SALIR"<<endl;
 
         cin>>opcion;
 
@@ -275,18 +272,16 @@ void menuOpcionesBanco(Sistema* sistema){
             buscarTransaccion(sistema);
             break;
         case 3:
-            modificarTransaccion(sistema);
-            break;
-        case 4:
             modificarCriteriosTSospechosas(sistema);
             break;
-        case 5:
+        case 4:
             verHistorialTSospechosas(sistema);
             break;
-        case 6:
+        case 5:
             verHistorialCompleto(sistema);
             break;
         case 0:
+            sistema->actualizarDatos(sistema->obtenerRaiz(),archivo);
             break;
         default:
             cout<<"Por favor ingrese una opcion valida"<<endl;
@@ -301,12 +296,23 @@ void menuOpcionesBanco(Sistema* sistema){
 
 int main(int argc, char const *argv[])
 {
+    string archivo = "transacciones.txt";
+
     Cliente* c = menuInicioSesion();
     Sistema* sistema = new Sistema(c);
 
     sistema->establecerZonaHoraria("America/Santiago");
+    
+    try {
+        sistema->cargarDatos(archivo);
 
-    menuOpcionesBanco(sistema);
+    } catch(ifstream::failure &e){
+        cerr<<"Error: "<<e.what()<<endl;
+    }
+    
+    
+
+    menuOpcionesBanco(sistema, archivo);
 
     delete sistema;
 

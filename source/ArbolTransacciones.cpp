@@ -249,3 +249,4 @@ void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo)
     recorrerArbol(nodo->tizquierda);
     recorrerArbol(nodo->tderecha);
 }
+
