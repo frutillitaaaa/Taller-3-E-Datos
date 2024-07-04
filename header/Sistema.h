@@ -29,14 +29,12 @@ class Sistema {
         Transaccion* registrarTransaccion(string cuentaDeDestino, int monto, string ubicacion);
         int obtenerID(Transaccion* transaccion);
         bool buscarTransaccion(int id);
-        void modificarTransaccion(int id);
         void historialTransaccionesSospechosas();
         void modificarCriteriosDeTransaccionesSospechosas(int montoTransaccion, int cantTransacciones, int cantUbisDistintas);
         int obtenerMontoTSospechosa();
         int obtenerCantTSospechosa();
         int obtenerCantUbiSospechosa();
         void generarReportes();
-        void actualizarDatos();
         void detectarTransaccionesSospechosas(NodoTransaccion* nodo);
         NodoTransaccion* obtenerRaiz();
 

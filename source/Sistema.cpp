@@ -45,6 +45,10 @@ bool Sistema::buscarTransaccion(int id)
     return arbol->buscarNodoTransaccion(nodoPadre,id);
 }
 
+void Sistema::historialTransaccionesSospechosas()
+{
+}
+
 void Sistema::modificarCriteriosDeTransaccionesSospechosas(int montoTransaccion, int cantTransacciones, int cantUbisDistintas)
 {
     this->montoSospecha = montoTransaccion;
