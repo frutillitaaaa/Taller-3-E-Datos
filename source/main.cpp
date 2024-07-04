@@ -249,7 +249,7 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
 void verHistorialTSospechosas(Sistema* sistema){
     cout<<"Ver Historial Transacciones Sospechosas"<<endl;
 
-    sistema->detectarTransaccionesSospechosas(sistema->obtenerRaiz());
+    sistema->obtenerTransaccionesSospechosas(sistema->obtenerRaiz());
 }
 
 void verHistorialCompleto(Sistema* sistema){
@@ -303,6 +303,8 @@ int main(int argc, char const *argv[])
 {
     Cliente* c = menuInicioSesion();
     Sistema* sistema = new Sistema(c);
+
+    sistema->establecerZonaHoraria("America/Santiago");
 
     menuOpcionesBanco(sistema);
 

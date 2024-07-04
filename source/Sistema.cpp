@@ -45,15 +45,18 @@ bool Sistema::buscarTransaccion(int id)
     return arbol->buscarNodoTransaccion(nodoPadre,id);
 }
 
-void Sistema::historialTransaccionesSospechosas()
-{
-}
-
 void Sistema::modificarCriteriosDeTransaccionesSospechosas(int montoTransaccion, int cantTransacciones, int cantUbisDistintas)
 {
     this->montoSospecha = montoTransaccion;
     this->cantTSospecha = cantTransacciones;
     this->cantUbiSospecha = cantUbisDistintas;
+
+    arbolDecision->setMontoSospecha(montoTransaccion);
+    arbolDecision->setCantTSospecha(cantTransacciones);
+    arbolDecision->setCantUbiSospecha(cantUbisDistintas);
+
+    arbolDecision->modificacionCriterioSospechoso(nodoPadre);
+    
 }
 
 int Sistema::obtenerMontoTSospechosa()
@@ -86,7 +89,7 @@ void Sistema::generarReportes()
     cliente->registroDeTransacciones();
 }
 
-void Sistema::detectarTransaccionesSospechosas(NodoTransaccion *nodo)
+void Sistema::obtenerTransaccionesSospechosas(NodoTransaccion *nodo)
 {
     
     if(nodo == nullptr|| arbol == nullptr || arbolDecision == nullptr || nodo->transaccion == nullptr){ 
@@ -94,13 +97,18 @@ void Sistema::detectarTransaccionesSospechosas(NodoTransaccion *nodo)
     }
     bool sospecha = arbolDecision->esSospechoso(arbolDecision->obtenerNodoPadre(),nodo,nodo->transaccion->getMontoTransaccion(),arbol->obtenerCantTHora(),arbol->obtenerCantUbi());
     if(sospecha){
-        nodo->transaccion->setSospecha(sospecha);
-        cout<<"Se ha detectado una transaccion sospechosa: "<<nodo->transaccion->getID()<<" - "<<nodo->transaccion->getMontoTransaccion()<<
-        " - "<<nodo->transaccion->getUbicacion()<< " - "<<nodo->transaccion->getCuentaDeOrigen()<<" - "<<nodo->transaccion->getCuentaDeDestino()<<endl;
+        cout<<"--- Transacciones Sospechosas ---"<<endl;
+        arbol->recorrerArbolTSospechosas(nodoPadre);
     }else{cout<<"No se detecto ninguna transaccion sospechosa"<<endl;}
 }
 
 NodoTransaccion *Sistema::obtenerRaiz()
 {
     return arbol->obtenerNodoPadre();
+}
+
+void Sistema::establecerZonaHoraria(const char* zonaHoraria)
+{
+    setenv("TZ", zonaHoraria, 1);
+    tzset();
 }

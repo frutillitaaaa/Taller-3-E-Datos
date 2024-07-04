@@ -25,6 +25,10 @@ class ArbolDecision {
         int obtenerMontoSospecha();
         int obtenerCantTSospecha();
         int obtenerCantUbiSospecha();
+        void setMontoSospecha(int monto);
+        void setCantTSospecha(int cantT);
+        void setCantUbiSospecha(int cantUbi);
+        void modificacionCriterioSospechoso(NodoTransaccion* nodo);
         
 
 

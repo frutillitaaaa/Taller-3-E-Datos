@@ -5,9 +5,9 @@
 ArbolDecision::ArbolDecision()
 {
     this->nodoPadre = agregarNodo();
-    montoSospecha = 10;
+    montoSospecha = 100;
     cantTSospecha = 7;
-    cantUbiSospecha = 4;
+    cantUbiSospecha = 3;
 }
 void ArbolDecision::agregarCriterio(NodoDecision *nodo, string criteriosi, string criteriono)
 {
@@ -52,7 +52,7 @@ bool ArbolDecision::esSospechoso(NodoDecision *nodo,NodoTransaccion* nodoAEvalua
 
         }
         //si la transaccion no es mayor al monto establecido
-        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi); cout<<sospecha2<<endl;
+        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi);
     } else if(nodo->criterio == "Frecuencia alta de transacciones en corto tiempo"){
         //si la frecuencia de transacciones es alta en un corto tiempo
         if(cantT >= cantTSospecha){
@@ -60,7 +60,7 @@ bool ArbolDecision::esSospechoso(NodoDecision *nodo,NodoTransaccion* nodoAEvalua
             if(nodo->hIzquierda != nullptr) sospecha1 = esSospechoso(nodo->hIzquierda, nodoAEvaluar, montoT, cantT, cantUbi);
         } 
         //si la frecuencia de transacciones no es alta
-        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi); cout<<sospecha2<<endl;
+        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi);
     } else if(nodo->criterio == "Ubicaciones diferentes en corto tiempo"){
         //si las ubicaciones cambian mucho en poco tiempo
         if(cantUbi >= cantUbiSospecha){
@@ -68,7 +68,7 @@ bool ArbolDecision::esSospechoso(NodoDecision *nodo,NodoTransaccion* nodoAEvalua
             if(nodo->hIzquierda != nullptr) sospecha1 = esSospechoso(nodo->hIzquierda, nodoAEvaluar, montoT, cantT, cantUbi);
         } 
         //si las ubicaciones no cambian mucho
-        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi); cout<<sospecha2<<endl;
+        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi);
     }
     return sospecha1 || sospecha2;
 
@@ -92,4 +92,28 @@ int ArbolDecision::obtenerCantTSospecha()
 int ArbolDecision::obtenerCantUbiSospecha()
 {
     return cantUbiSospecha;
+}
+
+void ArbolDecision::setMontoSospecha(int monto)
+{
+    this->montoSospecha = monto;
+}
+
+void ArbolDecision::setCantTSospecha(int cantT)
+{
+    this->cantTSospecha = cantT;
+}
+
+void ArbolDecision::setCantUbiSospecha(int cantUbi)
+{
+    this->cantUbiSospecha = cantUbi;
+}
+
+void ArbolDecision::modificacionCriterioSospechoso(NodoTransaccion *nodo)
+{
+    if(nodo == nullptr) return;
+    nodo->transaccion->setSospecha(false);
+
+    modificacionCriterioSospechoso(nodo->tizquierda);
+    modificacionCriterioSospechoso(nodo->tderecha);
 }

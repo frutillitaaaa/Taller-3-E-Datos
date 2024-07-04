@@ -121,7 +121,6 @@ void ArbolTransacciones::setAlturaNodo(NodoTransaccion *nodo)
     nodo->altura = 1 + max(hDer,hIzq);
 }
 
-//-SIN ERRRORES-
 // Función de inserción de Nodo transacción en el árbol de transacciones de manera recursiva
 NodoTransaccion* ArbolTransacciones::insertarNodoTransaccionRecursivo(NodoTransaccion* aux, NodoTransaccion* nodo) 
 {
@@ -172,14 +171,12 @@ NodoTransaccion *ArbolTransacciones::obtenerNodoPadre()
     return nodoPadre;
 }
 
-//-SIN ERRRORES-
 //Busca las transacciones en el arbol de transacciones de acuerdo al id de transaccion
 bool ArbolTransacciones::buscarNodoTransaccion(NodoTransaccion* nodo, int idTransaccion)
 {
     if(nodo == nullptr){
         return false;
     }
-    cout<<"referencia: "<<nodo->transaccion->getID()<<" buscando: "<<idTransaccion<<endl;
     
     if(nodo->transaccion->getID() == idTransaccion) {
         return true;
@@ -190,7 +187,7 @@ bool ArbolTransacciones::buscarNodoTransaccion(NodoTransaccion* nodo, int idTran
     } 
 }
 
-//presenta errores
+
 void ArbolTransacciones::liberarMemoria(NodoTransaccion *nodo)
 {
     if(nodo == nullptr) return;
@@ -238,6 +235,17 @@ void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo)
         <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()<<"\n--------------"<<endl;
         recorrerArbol(nodo->tizquierda);
         recorrerArbol(nodo->tderecha);
-    }
+    }    
+}
+
+void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo)
+{
     
+    if(nodo == nullptr) return;
+    if(nodo->transaccion->esSospechosa()){
+        cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
+        <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()<<"\n--------------"<<endl;
+    } 
+    recorrerArbol(nodo->tizquierda);
+    recorrerArbol(nodo->tderecha);
 }
