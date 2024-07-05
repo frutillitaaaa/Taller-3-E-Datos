@@ -42,7 +42,7 @@ void Cliente::registroDeTransacciones()
         cout<<"arbol de transacciones es nulo"<<endl;
         return;
     } 
-    arbolTransacciones->recorrerArbol(arbolTransacciones->obtenerNodoPadre());
+    arbolTransacciones->recorrerArbol(arbolTransacciones->obtenerNodoPadre(),cuenta);
 }
 
 string Cliente::getCuenta()

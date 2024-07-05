@@ -172,18 +172,18 @@ NodoTransaccion *ArbolTransacciones::obtenerNodoPadre()
 }
 
 //Busca las transacciones en el arbol de transacciones de acuerdo al id de transaccion
-bool ArbolTransacciones::buscarNodoTransaccion(NodoTransaccion* nodo, int idTransaccion)
+bool ArbolTransacciones::buscarNodoTransaccion(NodoTransaccion* nodo, int idTransaccion, string cuentaCliente)
 {
     if(nodo == nullptr){
         return false;
     }
-    
-    if(nodo->transaccion->getID() == idTransaccion) {
+    if(nodo->transaccion->getCuentaDeOrigen() != cuentaCliente && nodo->transaccion->getCuentaDeDestino() != cuentaCliente) return false;
+    if(nodo->transaccion->getID() == idTransaccion ) {
         return true;
     } else if(idTransaccion < nodo->transaccion->getID()){
-        return buscarNodoTransaccion(nodo->tizquierda, idTransaccion);
+        return buscarNodoTransaccion(nodo->tizquierda, idTransaccion, cuentaCliente);
     } else{
-        return buscarNodoTransaccion(nodo->tderecha, idTransaccion);
+        return buscarNodoTransaccion(nodo->tderecha, idTransaccion, cuentaCliente);
     } 
 }
 
@@ -228,28 +228,32 @@ NodoTransaccion *ArbolTransacciones::rotacionIzquierda(NodoTransaccion *nodo)
     return aux;
 }
 
-void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo)
+void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo, string cuentaCliente)
 {
     if(nodo != nullptr){
-        cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
-        <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()
-        <<"\nUbicacion: "<<nodo->transaccion->getUbicacion()<<"\n--------------"<<endl;
-        recorrerArbol(nodo->tizquierda);
-        recorrerArbol(nodo->tderecha);
+        if(nodo->transaccion->getCuentaDeDestino() == cuentaCliente ||nodo->transaccion->getCuentaDeOrigen() == cuentaCliente){
+            cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
+            <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()
+            <<"\nUbicacion: "<<nodo->transaccion->getUbicacion()<<"\n--------------"<<endl;
+            recorrerArbol(nodo->tizquierda,cuentaCliente);
+            recorrerArbol(nodo->tderecha,cuentaCliente);
+        }
     }    
 }
 
-void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo)
+void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo, string cuentaCliente)
 {
 
-    
-    if(nodo == nullptr) return;
-    if(nodo->transaccion->esSospechosa()){
+    if(nodo == nullptr){
+        cerr<<"Error: no se pudieron cargar los datos"<<endl;
+        return;
+    }
+    if(nodo->transaccion->esSospechosa() && nodo->transaccion->getCuentaDeOrigen() == cuentaCliente){
         cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
         <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()
         <<"\nUbicacion: "<<nodo->transaccion->getUbicacion()<<"\n--------------"<<endl;
     } 
-    recorrerArbol(nodo->tizquierda);
-    recorrerArbol(nodo->tderecha);
+    recorrerArbol(nodo->tizquierda,cuentaCliente);
+    recorrerArbol(nodo->tderecha,cuentaCliente);
 }
 

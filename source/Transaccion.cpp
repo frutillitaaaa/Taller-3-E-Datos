@@ -18,6 +18,7 @@ Transaccion::Transaccion(string cuentaDeOrigen, string cuentaDeDestino, int mont
     this->ubicacion = ubicacion;
     generarID();
     this->sospechosa = false;
+    
 }
 
 Transaccion::Transaccion(int idTransaccion, string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion, time_t horaTransaccion)
@@ -28,6 +29,7 @@ Transaccion::Transaccion(int idTransaccion, string cuentaDeOrigen, string cuenta
     this->monto = monto;
     this->ubicacion = ubicacion;
     this->fechaHoraTransaccion = horaTransaccion;
+    this->sospechosa = false;
 }
 
 Transaccion::~Transaccion()

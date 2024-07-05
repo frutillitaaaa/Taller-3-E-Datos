@@ -22,11 +22,11 @@ class ArbolTransacciones {
         NodoTransaccion* insertarNodoTransaccion(NodoTransaccion* nodo);
         NodoTransaccion* insertarNodoTransaccionRecursivo(NodoTransaccion* aux, NodoTransaccion* nodo);
         NodoTransaccion* obtenerNodoPadre();
-        bool buscarNodoTransaccion(NodoTransaccion* aux, int idTransaccion);
+        bool buscarNodoTransaccion(NodoTransaccion* aux, int idTransaccion, string cuentaCliente);
         void liberarMemoria(NodoTransaccion* nodo);
         NodoTransaccion* rotacionDerecha(NodoTransaccion* nodo);
         NodoTransaccion* rotacionIzquierda(NodoTransaccion* nodo);
-        void recorrerArbol(NodoTransaccion* nodo);
-        void recorrerArbolTSospechosas(NodoTransaccion* nodo);
+        void recorrerArbol(NodoTransaccion* nodo, string cuentaCliente);
+        void recorrerArbolTSospechosas(NodoTransaccion *nodo, string cuentaCliente);
 
 };

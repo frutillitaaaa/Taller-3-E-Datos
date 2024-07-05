@@ -6,6 +6,7 @@ Sistema::Sistema(Cliente* c)
     cliente = c;
     arbolDecision = c->getArbolDecision();
     arbol = c->getArbolTransaccion();
+    nodoPadre = nullptr;
     actualizar = false;
 
 }
@@ -44,7 +45,8 @@ bool Sistema::buscarTransaccion(int id)
         cout<<"Arbol vacio"<<endl;
         return false;
     }
-    return arbol->buscarNodoTransaccion(nodoPadre,id);
+
+    return arbol->buscarNodoTransaccion(nodoPadre,id,cliente->getCuenta());
 }
 
 void Sistema::modificarCriteriosDeTransaccionesSospechosas(int montoTransaccion, int cantTransacciones, int cantUbisDistintas)
@@ -95,12 +97,14 @@ void Sistema::obtenerTransaccionesSospechosas(NodoTransaccion *nodo)
 {
     
     if(nodo == nullptr|| arbol == nullptr || arbolDecision == nullptr || nodo->transaccion == nullptr){ 
+        cout<<"No se pudo evaluar si existian Transacciones sospechosas debido a que no se pudieron obtener los datos correctamente"<<endl;
         return;
     }
-    bool sospecha = arbolDecision->esSospechoso(arbolDecision->obtenerNodoPadre(),nodo,nodo->transaccion->getMontoTransaccion(),arbol->obtenerCantTHora(),arbol->obtenerCantUbi());
+    bool sospecha = arbolDecision->esSospechoso(arbolDecision->obtenerNodoPadre(),nodo,nodo->transaccion->getMontoTransaccion(),arbol->obtenerCantTHora(),arbol->obtenerCantUbi(), cliente->getCuenta());
+    cout<<sospecha<<endl;
     if(sospecha){
         cout<<"--- Transacciones Sospechosas ---"<<endl;
-        arbol->recorrerArbolTSospechosas(nodoPadre);
+        arbol->recorrerArbolTSospechosas(nodoPadre,cliente->getCuenta());
     }else{cout<<"No se detecto ninguna transaccion sospechosa"<<endl;}
 }
 
@@ -180,7 +184,10 @@ void Sistema::cargarDatos(const string &nArchivo)
             tTemp = new Transaccion(idTransaccion,cuentaOrigen,cuentaDestino,monto,ubicacion,fechaYHora);
 
             nodoTemp = new NodoTransaccion(tTemp);
-            arbol->insertarNodoTransaccion(nodoTemp);
+
+            nodoPadre = arbol->insertarNodoTransaccion(nodoTemp);
+                
+            
 
         }
 
