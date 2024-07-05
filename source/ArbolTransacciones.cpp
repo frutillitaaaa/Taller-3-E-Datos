@@ -257,3 +257,4 @@ void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo, string
     recorrerArbol(nodo->tderecha,cuentaCliente);
 }
 
+ 
