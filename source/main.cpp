@@ -13,18 +13,9 @@ using namespace std;
 
 Cliente* menuInicioSesion(){
 
-    string nombre;
     string cuenta;
 
     cout<<"Bienvenido a su banco"<<endl;
-    cout<<"Ingrese su nombre"<<endl;
-    cin>>nombre;
-
-    while (nombre.empty()) {
-        cout << "El nombre no puede estar vacio. Ingrese su nombre nuevamente: ";
-        cin >> nombre;
-    }
-
     cout<<"Ingrese su numero de cuenta"<<endl;
     cin>>cuenta;
 
@@ -33,7 +24,7 @@ Cliente* menuInicioSesion(){
         cin >> cuenta;
     }
 
-    Cliente*  cliente = new Cliente(nombre, cuenta);
+    Cliente*  cliente = new Cliente(cuenta);
 
     return cliente;
 
@@ -149,7 +140,7 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
     cout<<"Los criterios actuales de determinacion de Transacciones sospechosas son:"<<endl;
     cout<<"Transacciones que exceden "<<montoTSospechosa<<" CLP"<<endl;
     cout<<"Cantidad de Transacciones en una hora mayor a "<<cantTSospechosa<<endl;
-    cout<<"Cantidad de Ubicaciones distintas en un dia hora mayor a "<<cantUbiDistintas<<endl;
+    cout<<"Cantidad de Ubicaciones distintas en un dia mayor a "<<cantUbiDistintas<<endl;
 
     int opcion;
     bool validado = false;
@@ -165,7 +156,6 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
         switch(opcion){
             case 1:
                 cout<<"--- Modificar Monto de Sospecha ---"<<endl;
-                cout<<"Ingrese el monto que considera sospechoso: "<<endl;
 
                 do{
                     cout<<"Ingrese el monto que considera sospechoso: "<<endl;

@@ -1,9 +1,8 @@
 #include "../header/Cliente.h"
 #include "Cliente.h"
 
-Cliente::Cliente(string nombre, string cuenta)
+Cliente::Cliente(string cuenta)
 {
-    this->nombre = nombre;
     this->cuenta = cuenta;
     arbolTransacciones = new ArbolTransacciones();
     arbolDecision = new ArbolDecision();
@@ -48,9 +47,4 @@ void Cliente::registroDeTransacciones()
 string Cliente::getCuenta()
 {
     return cuenta;
-}
-
-string Cliente::getNombre()
-{
-    return nombre;
 }

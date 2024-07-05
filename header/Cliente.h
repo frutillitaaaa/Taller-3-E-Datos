@@ -12,13 +12,12 @@ using namespace std;
 class Cliente {
 
     private:
-        string nombre;
         string cuenta;
         ArbolDecision* arbolDecision;
         ArbolTransacciones* arbolTransacciones;
 
     public:
-        Cliente(string nombre, string cuenta);
+        Cliente(string cuenta);
         ~Cliente();
         ArbolDecision* getArbolDecision();
         void setArbolDecision(ArbolDecision* a);
@@ -26,7 +25,6 @@ class Cliente {
         void setArbolTransaccion(ArbolTransacciones* a);
         void registroDeTransacciones();
         string getCuenta();
-        string getNombre();
 };
 
 #endif
