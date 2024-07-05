@@ -6,6 +6,7 @@ Sistema::Sistema(Cliente* c)
     cliente = c;
     arbolDecision = c->getArbolDecision();
     arbol = c->getArbolTransaccion();
+    actualizar = false;
 
 }
 
@@ -20,6 +21,7 @@ Transaccion* Sistema::registrarTransaccion(string cuentaDeDestino, int monto, st
         transaccion = new Transaccion(cliente->getCuenta(),cuentaDeDestino,monto,ubicacion);
         NodoTransaccion* nodo = new NodoTransaccion(transaccion);
         nodoPadre = arbol->insertarNodoTransaccion(nodo);
+        actualizar = true;
         
     } catch(const bad_alloc& e){
         cerr<<"Ocurrio un error al asignar memoria"<<endl;
@@ -107,14 +109,9 @@ NodoTransaccion *Sistema::obtenerRaiz()
     return arbol->obtenerNodoPadre();
 }
 
-void Sistema::establecerZonaHoraria(const char* zonaHoraria)
-{
-    setenv("TZ", zonaHoraria, 1);
-    tzset();
-}
-
 void Sistema::actualizarDatos(NodoTransaccion* nodoT,const string &nArchivo)
 {
+    if(actualizar == false) return;
     ofstream archivo(nArchivo);
     if(archivo.is_open()){
         
@@ -129,9 +126,9 @@ void Sistema::actualizarDatos(NodoTransaccion* nodoT,const string &nArchivo)
 void Sistema::actualizarDatosConRecursion(NodoTransaccion *nodoT, ofstream &archivo)
 {
     if(nodoT != nullptr){
-            archivo<<nodoT->transaccion->getCuentaDeOrigen()<<","<<nodoT->transaccion->getCuentaDeDestino()<<
-            ","<<nodoT->transaccion->getMontoTransaccion()<<","<<nodoT->transaccion->getUbicacion()<<","<<nodoT->transaccion->getFechaYHoraTransaccion()<<endl;
-
+            archivo<<nodoT->transaccion->getID()<<","<<nodoT->transaccion->getCuentaDeOrigen()<<","<<nodoT->transaccion->getCuentaDeDestino()<<
+            ","<<nodoT->transaccion->getMontoTransaccion()<<","<<nodoT->transaccion->getUbicacion()<<","<<nodoT->transaccion->obtenerFechaLegible()<<endl;
+            
             actualizarDatosConRecursion(nodoT->tizquierda,archivo);
             actualizarDatosConRecursion(nodoT->tderecha,archivo);        
         }
@@ -140,6 +137,7 @@ void Sistema::actualizarDatosConRecursion(NodoTransaccion *nodoT, ofstream &arch
 
 void Sistema::cargarDatos(const string &nArchivo)
 {
+    int idTransaccion;
     string cuentaOrigen;
     string cuentaDestino;
     int monto;
@@ -156,24 +154,30 @@ void Sistema::cargarDatos(const string &nArchivo)
         while(getline(archivo,linea)){
             stringstream ss(linea);
 
+            ss>>idTransaccion;
+            ss.ignore();
             getline(ss,cuentaOrigen,',');
             getline(ss,cuentaDestino,',');
             ss>>monto;
+            ss.ignore();
             getline(ss,ubicacion,',');
             getline(ss,fechaYHoraSTR,',');
 
             struct tm tm = {};
 
             if (!fechaYHoraSTR.empty()) {
-                strptime(fechaYHoraSTR.c_str(), "%Y-%m-%d %H:%M:%S", &tm);
-                fechaYHora = mktime(&tm);
+                if(strptime(fechaYHoraSTR.c_str(), "%Y-%m-%d %H:%M:%S", &tm)!= nullptr){
+                    fechaYHora = mktime(&tm);
+                } else {
+                    cerr<<"Error: Formato de fecha y hora invalido"<<endl;
+                }
+                
             } else {
-                cerr << "Error: La cadena de fecha y hora está vacia." << endl;
+                cerr<<"Error: La cadena de fecha y hora esta vacia"<<endl;
                 continue; 
             }
 
-            tTemp = new Transaccion(cuentaOrigen,cuentaDestino,monto,ubicacion);
-            tTemp->setFechaYHoraTransaccion2(fechaYHora);
+            tTemp = new Transaccion(idTransaccion,cuentaOrigen,cuentaDestino,monto,ubicacion,fechaYHora);
 
             nodoTemp = new NodoTransaccion(tTemp);
             arbol->insertarNodoTransaccion(nodoTemp);

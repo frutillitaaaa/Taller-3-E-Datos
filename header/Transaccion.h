@@ -17,10 +17,12 @@ class Transaccion {
         time_t fechaHoraTransaccion;
         string ubicacion;
         bool sospechosa;
+        string zonaHoraria = "America/Santiago";
         
 
     public: 
         Transaccion(string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion);
+        Transaccion(int idTransaccion, string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion, time_t horaTransaccion);
         ~Transaccion();
         string getCuentaDeOrigen() const;
         string getCuentaDeDestino() const;

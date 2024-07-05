@@ -232,7 +232,8 @@ void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo)
 {
     if(nodo != nullptr){
         cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
-        <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()<<"\n--------------"<<endl;
+        <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()
+        <<"\nUbicacion: "<<nodo->transaccion->getUbicacion()<<"\n--------------"<<endl;
         recorrerArbol(nodo->tizquierda);
         recorrerArbol(nodo->tderecha);
     }    
@@ -240,11 +241,13 @@ void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo)
 
 void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo)
 {
+
     
     if(nodo == nullptr) return;
     if(nodo->transaccion->esSospechosa()){
         cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
-        <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()<<"\n--------------"<<endl;
+        <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()
+        <<"\nUbicacion: "<<nodo->transaccion->getUbicacion()<<"\n--------------"<<endl;
     } 
     recorrerArbol(nodo->tizquierda);
     recorrerArbol(nodo->tderecha);

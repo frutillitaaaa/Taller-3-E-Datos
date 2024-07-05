@@ -300,8 +300,6 @@ int main(int argc, char const *argv[])
 
     Cliente* c = menuInicioSesion();
     Sistema* sistema = new Sistema(c);
-
-    sistema->establecerZonaHoraria("America/Santiago");
     
     try {
         sistema->cargarDatos(archivo);

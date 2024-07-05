@@ -9,7 +9,6 @@
 using namespace std;
 
 
-
 Transaccion::Transaccion(string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion)
 {
     this->cuentaDeOrigen = cuentaDeOrigen;
@@ -19,6 +18,16 @@ Transaccion::Transaccion(string cuentaDeOrigen, string cuentaDeDestino, int mont
     this->ubicacion = ubicacion;
     generarID();
     this->sospechosa = false;
+}
+
+Transaccion::Transaccion(int idTransaccion, string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion, time_t horaTransaccion)
+{
+    this->idTransaccion = idTransaccion;
+    this->cuentaDeOrigen = cuentaDeOrigen;
+    this->cuentaDeDestino = cuentaDeDestino;
+    this->monto = monto;
+    this->ubicacion = ubicacion;
+    this->fechaHoraTransaccion = horaTransaccion;
 }
 
 Transaccion::~Transaccion()
@@ -113,10 +122,22 @@ void Transaccion::setSospecha(bool sospecha)
 
 string Transaccion::obtenerFechaLegible()
 {
+    if(fechaHoraTransaccion == 0) return "";
+
+    setenv("TZ", zonaHoraria.c_str(), 1);
+    tzset();
+
     tm* hora = localtime(&fechaHoraTransaccion);
 
+    if(hora == nullptr){
+        cerr<<"Error: No se pudo convertir la hora"<<endl;
+        return "";
+    }
+
     char formattedTime[80];
+
     strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", hora);
+
     
     return string(formattedTime);
 }

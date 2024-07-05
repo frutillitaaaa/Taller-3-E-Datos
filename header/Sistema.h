@@ -24,6 +24,7 @@ class Sistema {
         int montoSospecha;
         int cantTSospecha;
         int cantUbiSospecha;
+        bool actualizar;
 
     public:
         Sistema(Cliente* c);
@@ -38,10 +39,9 @@ class Sistema {
         void generarReportes();
         void obtenerTransaccionesSospechosas(NodoTransaccion* nodo);
         NodoTransaccion* obtenerRaiz();
-        void establecerZonaHoraria(const char* zonaHoraria);
         void actualizarDatos(NodoTransaccion* nodo,const string &nArchivo);
         void actualizarDatosConRecursion(NodoTransaccion *nodoT, ofstream &archivo);
-        void cargarDatos(const string &archivo);
+        void cargarDatos(const string& archivo);
 
 };
 
