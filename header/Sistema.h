@@ -44,6 +44,8 @@ class Sistema {
         void actualizarDatos(NodoTransaccion* nodo,const string &nArchivo);
         void actualizarDatosConRecursion(NodoTransaccion *nodoT, ofstream &archivo);
         void cargarDatos(const string& archivo);
+        void EvaluarSospecha();
+        void evaluarSospechaRecursivamente(NodoTransaccion* nodo);
 
 };
 

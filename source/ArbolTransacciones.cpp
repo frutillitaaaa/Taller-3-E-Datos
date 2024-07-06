@@ -9,8 +9,11 @@ ArbolTransacciones::ArbolTransacciones()
 }
 ArbolTransacciones::~ArbolTransacciones()
 {
-    liberarMemoria(nodoPadre);
+    if(nodoPadre!= nullptr){
+        liberarMemoria(nodoPadre);
     nodoPadre = nullptr;
+    }
+    
 }
 
 // Función de inserción de Nodo transacción en el árbol de transacciones
@@ -91,8 +94,10 @@ void ArbolTransacciones::contarTEnHora(NodoTransaccion *nodo)
 
 void ArbolTransacciones::contarUbiEnDia(NodoTransaccion *nodo)
 {
-    if(nodo == nullptr) return;
-
+    if(nodo == nullptr || nodo->transaccion == nullptr){
+        cerr<<"Nodo Transaccion no valido"<<endl;
+        return;
+    }
     if(nodo->tizquierda != nullptr && nodo->tizquierda->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<86400){
         if(nodo->tizquierda->transaccion->getUbicacion() != nodo->transaccion->getUbicacion()) cantUbi++;
     }
@@ -244,7 +249,7 @@ void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo, string cuentaClien
 void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo)
 {
 
-    if(nodo == nullptr){
+    if(nodo == nullptr || nodo->transaccion == nullptr){
         cerr<<"Error: no se pudieron cargar los datos"<<endl;
         return;
     }

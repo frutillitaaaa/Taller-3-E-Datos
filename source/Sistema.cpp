@@ -104,7 +104,6 @@ void Sistema::obtenerTransaccionesSospechosas(NodoTransaccion *nodo)
         return;
     }
     bool sospecha = arbolDecision->esSospechoso(arbolDecision->obtenerNodoPadre(),nodo,nodo->transaccion->getMontoTransaccion(),arbol->obtenerCantTHora(),arbol->obtenerCantUbi());
-    cout<<sospecha<<endl;
     if(sospecha){
         cout<<"--- Transacciones Sospechosas ---"<<endl;
         cliente->obtenerTransaccionesSospechosas();
@@ -200,4 +199,28 @@ void Sistema::cargarDatos(const string &nArchivo)
     } else{
         cerr<<"Ocurrio un error al cargar el archivo"<<endl;
     }
+}
+
+void Sistema::EvaluarSospecha()
+{
+    if(cliente->getArbolTransaccion() == nullptr){
+        cerr<<"Arbol de transacciones vacio"<<endl;
+        return;
+    }
+
+    evaluarSospechaRecursivamente(arbol->obtenerNodoPadre());
+}
+
+void Sistema::evaluarSospechaRecursivamente(NodoTransaccion *nodo)
+{
+    if(nodo == nullptr){
+        cerr<<"Nodo nulo"<<endl;
+        return;
+    }
+
+    obtenerTransaccionesSospechosas(nodo);
+
+    evaluarSospechaRecursivamente(nodo->tizquierda);
+    evaluarSospechaRecursivamente(nodo->tderecha);
+
 }

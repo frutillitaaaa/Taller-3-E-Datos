@@ -5,9 +5,9 @@
 ArbolDecision::ArbolDecision()
 {
     this->nodoPadre = agregarNodo();
-    montoSospecha = 10;
-    cantTSospecha = 10;
-    cantUbiSospecha = 5;
+    montoSospecha = 10000000;
+    cantTSospecha = 2;
+    cantUbiSospecha = 2;
 }
 void ArbolDecision::agregarCriterio(NodoDecision *nodo, string criteriosi, string criteriono)
 {

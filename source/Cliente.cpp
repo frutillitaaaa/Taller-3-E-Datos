@@ -58,5 +58,6 @@ NodoTransaccion *Cliente::insertarTransaccion(NodoTransaccion* n)
 }
 
 void Cliente::obtenerTransaccionesSospechosas(){
+    if(arbolTransacciones == nullptr) return;
     arbolTransacciones->recorrerArbolTSospechosas(arbolTransacciones->obtenerNodoPadre());
 }

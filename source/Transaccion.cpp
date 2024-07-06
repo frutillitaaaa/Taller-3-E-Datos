@@ -34,6 +34,7 @@ Transaccion::Transaccion(int idTransaccion, string cuentaDeOrigen, string cuenta
 
 Transaccion::~Transaccion()
 {
+
 }
 
 string Transaccion::getCuentaDeOrigen() const{
@@ -51,7 +52,12 @@ int Transaccion::getMontoTransaccion() const
 
 time_t Transaccion::getFechaYHoraTransaccion() const
 {
-    return abs(fechaHoraTransaccion);
+    if(this == nullptr){
+        cerr<<"objeto no inicializado"<<endl;
+        return abs(fechaHoraTransaccion);
+    }
+    return 0;
+    
 }
 
 string Transaccion::getUbicacion() const
