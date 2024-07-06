@@ -103,11 +103,11 @@ void Sistema::obtenerTransaccionesSospechosas(NodoTransaccion *nodo)
         cout<<"No se pudo evaluar si existian Transacciones sospechosas debido a que no se pudieron obtener los datos correctamente"<<endl;
         return;
     }
-    bool sospecha = arbolDecision->esSospechoso(arbolDecision->obtenerNodoPadre(),nodo,nodo->transaccion->getMontoTransaccion(),arbol->obtenerCantTHora(),arbol->obtenerCantUbi(), cliente->getCuenta());
+    bool sospecha = arbolDecision->esSospechoso(arbolDecision->obtenerNodoPadre(),nodo,nodo->transaccion->getMontoTransaccion(),arbol->obtenerCantTHora(),arbol->obtenerCantUbi());
     cout<<sospecha<<endl;
     if(sospecha){
         cout<<"--- Transacciones Sospechosas ---"<<endl;
-        arbol->recorrerArbolTSospechosas(nodoPadre,cliente->getCuenta());
+        cliente->obtenerTransaccionesSospechosas();
     }else{cout<<"No se detecto ninguna transaccion sospechosa"<<endl;}
 }
 
@@ -191,10 +191,8 @@ void Sistema::cargarDatos(const string &nArchivo)
             if(cliente != nullptr){
                 if(cuentaDestino == cliente->getCuenta() || cuentaOrigen == cliente->getCuenta()){
                     cliente->insertarTransaccion(nodoTemp);
-                    cout<<nodoTemp->transaccion->getID();
                 }
             }
-
         }
         delete nodoTemp;
         delete tTemp;

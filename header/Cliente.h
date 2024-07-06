@@ -26,6 +26,7 @@ class Cliente {
         void registroDeTransacciones();
         string getCuenta();
         NodoTransaccion* insertarTransaccion(NodoTransaccion* n);
+        void obtenerTransaccionesSospechosas();
 };
 
 #endif

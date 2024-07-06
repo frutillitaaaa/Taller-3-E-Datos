@@ -20,7 +20,7 @@ class ArbolDecision {
         ArbolDecision();
         void agregarCriterio(NodoDecision* nodo, string criterio1, string criterio2);
         NodoDecision* agregarNodo();
-        bool esSospechoso(NodoDecision *nodo,NodoTransaccion* nodoAEvaluar, int montoT, int cantT, int cantUbi, string cuentaCliente);
+        bool esSospechoso(NodoDecision *nodo,NodoTransaccion* nodoAEvaluar, int montoT, int cantT, int cantUbi);
         NodoDecision* obtenerNodoPadre();
         int obtenerMontoSospecha();
         int obtenerCantTSospecha();

@@ -241,20 +241,20 @@ void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo, string cuentaClien
     }    
 }
 
-void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo, string cuentaCliente)
+void ArbolTransacciones::recorrerArbolTSospechosas(NodoTransaccion *nodo)
 {
 
     if(nodo == nullptr){
         cerr<<"Error: no se pudieron cargar los datos"<<endl;
         return;
     }
-    if(nodo->transaccion->esSospechosa() && nodo->transaccion->getCuentaDeOrigen() == cuentaCliente){
+    if(nodo->transaccion->esSospechosa()){
         cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
         <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()
         <<"\nUbicacion: "<<nodo->transaccion->getUbicacion()<<"\n--------------"<<endl;
     } 
-    recorrerArbol(nodo->tizquierda,cuentaCliente);
-    recorrerArbol(nodo->tderecha,cuentaCliente);
+    recorrerArbolTSospechosas(nodo->tizquierda);
+    recorrerArbolTSospechosas(nodo->tderecha);
 }
 
  

@@ -86,12 +86,6 @@ void Transaccion::setFechaYHoraTransaccion()
     this->fechaHoraTransaccion = tiempo;
 }
 
-//Para setear la fecha y hora de la transaccion cuando se cargan datos desde un archivo
-void Transaccion::setFechaYHoraTransaccion2(time_t fechaHora)
-{
-    this->fechaHoraTransaccion = fechaHora;
-}
-
 void Transaccion::setUbicacion(string ubicacion)
 {
     this->ubicacion = ubicacion;

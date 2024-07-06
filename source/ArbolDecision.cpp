@@ -32,46 +32,44 @@ NodoDecision *ArbolDecision::agregarNodo()
     return nodoPadre;
 }
 
-bool ArbolDecision::esSospechoso(NodoDecision *nodo,NodoTransaccion* nodoAEvaluar, int montoT, int cantT, int cantUbi, string cuentaCliente)
+bool ArbolDecision::esSospechoso(NodoDecision *nodo,NodoTransaccion* nodoAEvaluar, int montoT, int cantT, int cantUbi)
 {
     if(nodo == nullptr){
         cout<<"nodo nulo"<<endl;
         return false;
     }
     if(nodo->hDerecha == nullptr && nodo->hIzquierda == nullptr){
-        if(nodoAEvaluar->transaccion->getCuentaDeOrigen() == cuentaCliente)
+        if(nodoAEvaluar != nullptr)
         return nodoAEvaluar->transaccion->esSospechosa();
     }
     bool sospecha1 = false;
     bool sospecha2 = false;
 
-    if(nodoAEvaluar->transaccion->getCuentaDeOrigen() != cuentaCliente) return false;
-
     if(nodo->criterio == "Transaccion mayor a monto"){
         //si la transaccion es mayor al monto establecido 
         if(montoT >= montoSospecha) {
             nodoAEvaluar->transaccion->setSospecha(true);
-            if(nodo->hIzquierda != nullptr) sospecha1 = esSospechoso(nodo->hIzquierda, nodoAEvaluar, montoT, cantT, cantUbi, cuentaCliente);
+            if(nodo->hIzquierda != nullptr) sospecha1 = esSospechoso(nodo->hIzquierda, nodoAEvaluar, montoT, cantT, cantUbi);
 
         }
         //si la transaccion no es mayor al monto establecido
-        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi, cuentaCliente);
+        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi);
     } else if(nodo->criterio == "Frecuencia alta de transacciones en corto tiempo"){
         //si la frecuencia de transacciones es alta en un corto tiempo
         if(cantT >= cantTSospecha){
             nodoAEvaluar->transaccion->setSospecha(true);
-            if(nodo->hIzquierda != nullptr) sospecha1 = esSospechoso(nodo->hIzquierda, nodoAEvaluar, montoT, cantT, cantUbi, cuentaCliente);
+            if(nodo->hIzquierda != nullptr) sospecha1 = esSospechoso(nodo->hIzquierda, nodoAEvaluar, montoT, cantT, cantUbi);
         } 
         //si la frecuencia de transacciones no es alta
-        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi, cuentaCliente);
+        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi);
     } else if(nodo->criterio == "Ubicaciones diferentes en corto tiempo"){
         //si las ubicaciones cambian mucho en poco tiempo
         if(cantUbi >= cantUbiSospecha){
             nodoAEvaluar->transaccion->setSospecha(true);
-            if(nodo->hIzquierda != nullptr) sospecha1 = esSospechoso(nodo->hIzquierda, nodoAEvaluar, montoT, cantT, cantUbi, cuentaCliente);
+            if(nodo->hIzquierda != nullptr) sospecha1 = esSospechoso(nodo->hIzquierda, nodoAEvaluar, montoT, cantT, cantUbi);
         } 
         //si las ubicaciones no cambian mucho
-        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi, cuentaCliente);
+        if(nodo->hDerecha != nullptr) sospecha2 = esSospechoso(nodo->hDerecha, nodoAEvaluar, montoT, cantT, cantUbi);
     }
     return sospecha1 || sospecha2;
 
