@@ -25,6 +25,7 @@ class Cliente {
         void setArbolTransaccion(ArbolTransacciones* a);
         void registroDeTransacciones();
         string getCuenta();
+        NodoTransaccion* insertarTransaccion(NodoTransaccion* n);
 };
 
 #endif

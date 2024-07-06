@@ -48,3 +48,11 @@ string Cliente::getCuenta()
 {
     return cuenta;
 }
+
+NodoTransaccion *Cliente::insertarTransaccion(NodoTransaccion* n)
+{
+    if(n!= nullptr){
+        arbolTransacciones->insertarNodoTransaccion(n);
+    }
+    return nullptr;
+}

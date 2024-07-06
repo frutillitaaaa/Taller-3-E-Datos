@@ -19,8 +19,10 @@ class Sistema {
     private:
         Cliente* cliente;
         ArbolTransacciones* arbol;
+        ArbolTransacciones* arbolGeneral;
         ArbolDecision* arbolDecision;
         NodoTransaccion* nodoPadre;
+        NodoTransaccion* raizArbolGeneral;
         int montoSospecha;
         int cantTSospecha;
         int cantUbiSospecha;

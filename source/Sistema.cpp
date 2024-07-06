@@ -7,12 +7,15 @@ Sistema::Sistema(Cliente* c)
     arbolDecision = c->getArbolDecision();
     arbol = c->getArbolTransaccion();
     nodoPadre = nullptr;
+    raizArbolGeneral = nullptr;
     actualizar = false;
+    arbolGeneral = new ArbolTransacciones();
 
 }
 
 Sistema::~Sistema()
 {
+    delete arbolGeneral;
 }
 
 Transaccion* Sistema::registrarTransaccion(string cuentaDeDestino, int monto, string ubicacion)
@@ -182,15 +185,19 @@ void Sistema::cargarDatos(const string &nArchivo)
             }
 
             tTemp = new Transaccion(idTransaccion,cuentaOrigen,cuentaDestino,monto,ubicacion,fechaYHora);
-
             nodoTemp = new NodoTransaccion(tTemp);
-
-            nodoPadre = arbol->insertarNodoTransaccion(nodoTemp);
-                
+            raizArbolGeneral = arbolGeneral->insertarNodoTransaccion(nodoTemp);
             
+            if(cliente != nullptr){
+                if(cuentaDestino == cliente->getCuenta() || cuentaOrigen == cliente->getCuenta()){
+                    cliente->insertarTransaccion(nodoTemp);
+                    cout<<nodoTemp->transaccion->getID();
+                }
+            }
 
         }
-
+        delete nodoTemp;
+        delete tTemp;
         archivo.close();
     } else{
         cerr<<"Ocurrio un error al cargar el archivo"<<endl;
