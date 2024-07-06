@@ -17,23 +17,28 @@ ArbolTransacciones::~ArbolTransacciones()
 // Función de inserción de Nodo transacción en el árbol de transacciones
 NodoTransaccion *ArbolTransacciones::insertarNodoTransaccion(NodoTransaccion *nodo)
 {
-    
     if(nodoPadre == nullptr){ //si el arbol está vacío o si el nodoPadre inicial no tiene nodos hijos, el nuevo nodoPadre será el nodo que queríamos añadir
-        nodoPadre = nodo;
+        if(nodo != nullptr) {nodoPadre = nodo;}
+        else{return nullptr;}
+        
     }else {
-        if(nodoPadre->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<= 3600) cantTHora++;
-        if(nodoPadre->transaccion->getUbicacion() != nodo->transaccion->getUbicacion() && nodoPadre->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<= 3600)
-        cantUbi++;
+        if(nodoPadre->transaccion!= nullptr){
+            if(nodoPadre->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<= 3600) cantTHora++;
+            if(nodoPadre->transaccion->getUbicacion() != nodo->transaccion->getUbicacion() && nodoPadre->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<= 3600)
+            cantUbi++;
         //si no esta vacio el arbol, se compara si el dato del nodo que se quiere ingresar es mayor o menor que el nodoPadre
-        if(nodo->transaccion->getID() < nodoPadre->transaccion->getID()){
+            if(nodo->transaccion->getID() < nodoPadre->transaccion->getID()){
             nodoPadre->tizquierda = insertarNodoTransaccionRecursivo(nodoPadre->tizquierda,nodo);
-        }else{
-            nodoPadre->tderecha = insertarNodoTransaccionRecursivo(nodoPadre->tderecha,nodo);
+            }else{
+                nodoPadre->tderecha = insertarNodoTransaccionRecursivo(nodoPadre->tderecha,nodo);
+            }
         }
     }
     setAlturaNodo(nodoPadre);
 
     return nodoPadre;
+    
+    
 }
 
 //retorna la altura del nodo actual
@@ -127,17 +132,18 @@ void ArbolTransacciones::setAlturaNodo(NodoTransaccion *nodo)
 // Función de inserción de Nodo transacción en el árbol de transacciones de manera recursiva
 NodoTransaccion* ArbolTransacciones::insertarNodoTransaccionRecursivo(NodoTransaccion* aux, NodoTransaccion* nodo) 
 {
+    if(nodo == nullptr){
+        cerr<<"Se intento insertar un nodo nullptr"<<endl;
+        return aux;
+    }
+
     if(aux == nullptr) //si el arbol está vacío o si el nodoPadre inicial no tiene nodos hijos, el nuevo nodoPadre será el nodo que queríamos añadir
         aux = nodo;
     
-    if(nodo == nullptr){
-        cerr<<"Se intento insertar un nodo nullptr"<<endl;
-        return nullptr;
-    }
-
+    
     if(nodo->transaccion == nullptr){
         cerr<<"Transaccion invalida"<<endl;
-        return nullptr;
+        return aux;
     }
 
     //si no esta vacio el arbol, se compara si el dato del nodo que se quiere ingresar es mayor o menor que el nodoPadre
@@ -257,7 +263,7 @@ NodoTransaccion *ArbolTransacciones::rotacionIzquierda(NodoTransaccion *nodo)
 
 void ArbolTransacciones::recorrerArbol(NodoTransaccion* nodo, string cuentaCliente)
 {
-    if(nodo != nullptr){
+    if(nodo != nullptr && nodo->transaccion != nullptr){
         if(nodo->transaccion->getCuentaDeDestino() == cuentaCliente ||nodo->transaccion->getCuentaDeOrigen() == cuentaCliente){
             cout<<"ID Transaccion: "<<nodo->transaccion->getID()<<"\nFecha y Hora: "<<nodo->transaccion->obtenerFechaLegible()
             <<"\nCuenta de Destino: "<<nodo->transaccion->getCuentaDeDestino()<<"\nMonto: "<<nodo->transaccion->getMontoTransaccion()

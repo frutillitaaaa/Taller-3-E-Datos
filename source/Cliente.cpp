@@ -10,12 +10,12 @@ Cliente::Cliente(string cuenta)
 
 Cliente::~Cliente()
 {
-    if(arbolDecision != nullptr){
+    if(arbolDecision != nullptr && arbolDecision->obtenerNodoPadre() != nullptr){
         delete arbolDecision;
         arbolDecision = nullptr;
     }
     
-    if(arbolTransacciones != nullptr){
+    if(arbolTransacciones != nullptr && arbolTransacciones->obtenerNodoPadre() != nullptr){
         delete arbolTransacciones;
         arbolTransacciones = nullptr;
     }
@@ -62,7 +62,7 @@ NodoTransaccion *Cliente::insertarTransaccion(NodoTransaccion* n)
     if(n!= nullptr){
         arbolTransacciones->insertarNodoTransaccion(n);
     }
-    return nullptr;
+    return arbolTransacciones->obtenerNodoPadre();
 }
 
 void Cliente::obtenerTransaccionesSospechosas(){
