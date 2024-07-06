@@ -10,8 +10,16 @@ Cliente::Cliente(string cuenta)
 
 Cliente::~Cliente()
 {
-    delete arbolDecision;
-    delete arbolTransacciones;
+    if(arbolDecision != nullptr){
+        delete arbolDecision;
+        arbolDecision = nullptr;
+    }
+    
+    if(arbolTransacciones != nullptr){
+        delete arbolTransacciones;
+        arbolTransacciones = nullptr;
+    }
+    
 }
 
 ArbolDecision *Cliente::getArbolDecision()

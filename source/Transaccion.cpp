@@ -8,7 +8,7 @@
 
 using namespace std;
 
-
+//Constructor de transaccion ingresada por el cliente manualmente
 Transaccion::Transaccion(string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion)
 {
     this->cuentaDeOrigen = cuentaDeOrigen;
@@ -21,6 +21,7 @@ Transaccion::Transaccion(string cuentaDeOrigen, string cuentaDeDestino, int mont
     
 }
 
+//Constructor de transaccion ingresada mediante un archivo
 Transaccion::Transaccion(int idTransaccion, string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion, time_t horaTransaccion)
 {
     this->idTransaccion = idTransaccion;
@@ -32,10 +33,6 @@ Transaccion::Transaccion(int idTransaccion, string cuentaDeOrigen, string cuenta
     this->sospechosa = false;
 }
 
-Transaccion::~Transaccion()
-{
-
-}
 
 string Transaccion::getCuentaDeOrigen() const{
     return cuentaDeOrigen;
@@ -54,9 +51,10 @@ time_t Transaccion::getFechaYHoraTransaccion() const
 {
     if(this == nullptr){
         cerr<<"objeto no inicializado"<<endl;
-        return abs(fechaHoraTransaccion);
+        return 0;
+        
     }
-    return 0;
+    return abs(fechaHoraTransaccion);
     
 }
 

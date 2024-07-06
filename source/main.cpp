@@ -235,7 +235,7 @@ void modificarCriteriosTSospechosas(Sistema* sistema){
 void verHistorialTSospechosas(Sistema* sistema){
     cout<<"Ver Historial Transacciones Sospechosas"<<endl;
 
-    sistema->obtenerTransaccionesSospechosas(sistema->obtenerRaiz());
+    sistema->obtenerTransaccionesSospechosas(sistema->obtenerRaizArbolCliente());
 }
 
 void verHistorialCompleto(Sistema* sistema){
@@ -271,7 +271,7 @@ void menuOpcionesBanco(Sistema* sistema, string &archivo){
             verHistorialCompleto(sistema);
             break;
         case 0:
-            sistema->actualizarDatos(sistema->obtenerRaiz(),archivo);
+            sistema->actualizarDatos(sistema->obtenerRaizArbolGeneral(),archivo);
             break;
         default:
             cout<<"Por favor ingrese una opcion valida"<<endl;
@@ -303,6 +303,7 @@ int main(int argc, char const *argv[])
     menuOpcionesBanco(sistema, archivo);
 
     delete sistema;
+    delete c;
 
     return 0;
 }

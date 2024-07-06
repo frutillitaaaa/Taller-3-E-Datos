@@ -15,7 +15,10 @@ Sistema::Sistema(Cliente* c)
 
 Sistema::~Sistema()
 {
-    delete arbolGeneral;
+    if(arbolGeneral != nullptr){
+        delete arbolGeneral;
+    }
+    
 }
 
 Transaccion* Sistema::registrarTransaccion(string cuentaDeDestino, int monto, string ubicacion)
@@ -25,6 +28,7 @@ Transaccion* Sistema::registrarTransaccion(string cuentaDeDestino, int monto, st
         transaccion = new Transaccion(cliente->getCuenta(),cuentaDeDestino,monto,ubicacion);
         NodoTransaccion* nodo = new NodoTransaccion(transaccion);
         nodoPadre = arbol->insertarNodoTransaccion(nodo);
+        raizArbolGeneral = arbolGeneral->insertarNodoTransaccion(nodo);
         actualizar = true;
         
     } catch(const bad_alloc& e){
@@ -110,9 +114,14 @@ void Sistema::obtenerTransaccionesSospechosas(NodoTransaccion *nodo)
     }else{cout<<"No se detecto ninguna transaccion sospechosa"<<endl;}
 }
 
-NodoTransaccion *Sistema::obtenerRaiz()
+NodoTransaccion *Sistema::obtenerRaizArbolCliente()
 {
     return arbol->obtenerNodoPadre();
+}
+
+NodoTransaccion *Sistema::obtenerRaizArbolGeneral()
+{
+    return arbolGeneral->obtenerNodoPadre();
 }
 
 void Sistema::actualizarDatos(NodoTransaccion* nodoT,const string &nArchivo)
@@ -131,7 +140,7 @@ void Sistema::actualizarDatos(NodoTransaccion* nodoT,const string &nArchivo)
 
 void Sistema::actualizarDatosConRecursion(NodoTransaccion *nodoT, ofstream &archivo)
 {
-    if(nodoT != nullptr){
+    if(nodoT != nullptr && nodoT->transaccion != nullptr){
             archivo<<nodoT->transaccion->getID()<<","<<nodoT->transaccion->getCuentaDeOrigen()<<","<<nodoT->transaccion->getCuentaDeDestino()<<
             ","<<nodoT->transaccion->getMontoTransaccion()<<","<<nodoT->transaccion->getUbicacion()<<","<<nodoT->transaccion->obtenerFechaLegible()<<endl;
             
@@ -193,8 +202,6 @@ void Sistema::cargarDatos(const string &nArchivo)
                 }
             }
         }
-        delete nodoTemp;
-        delete tTemp;
         archivo.close();
     } else{
         cerr<<"Ocurrio un error al cargar el archivo"<<endl;

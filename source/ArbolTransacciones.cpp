@@ -11,9 +11,7 @@ ArbolTransacciones::~ArbolTransacciones()
 {
     if(nodoPadre!= nullptr){
         liberarMemoria(nodoPadre);
-    nodoPadre = nullptr;
     }
-    
 }
 
 // Función de inserción de Nodo transacción en el árbol de transacciones
@@ -131,6 +129,17 @@ NodoTransaccion* ArbolTransacciones::insertarNodoTransaccionRecursivo(NodoTransa
 {
     if(aux == nullptr) //si el arbol está vacío o si el nodoPadre inicial no tiene nodos hijos, el nuevo nodoPadre será el nodo que queríamos añadir
         aux = nodo;
+    
+    if(nodo == nullptr){
+        cerr<<"Se intento insertar un nodo nullptr"<<endl;
+        return nullptr;
+    }
+
+    if(nodo->transaccion == nullptr){
+        cerr<<"Transaccion invalida"<<endl;
+        return nullptr;
+    }
+
     //si no esta vacio el arbol, se compara si el dato del nodo que se quiere ingresar es mayor o menor que el nodoPadre
     if(nodo->transaccion->getID() < aux->transaccion->getID())
         aux->tizquierda = insertarNodoTransaccionRecursivo(aux->tizquierda,nodo);
@@ -195,13 +204,26 @@ bool ArbolTransacciones::buscarNodoTransaccion(NodoTransaccion* nodo, int idTran
 
 void ArbolTransacciones::liberarMemoria(NodoTransaccion *nodo)
 {
-    if(nodo == nullptr) return;
+    if(nodo == nullptr){
+        cerr<<"No se pudo eliminar el nodo porque no existe"<<endl;
+        return;
+    } 
 
-    liberarMemoria(nodo->tizquierda);
-    liberarMemoria(nodo->tderecha);
+    if(nodo->tizquierda != nullptr){
+        liberarMemoria(nodo->tizquierda);
+    }
+    
+    if(nodo->tderecha != nullptr){
+        liberarMemoria(nodo->tderecha);
+    }
+    
 
-    delete nodo->transaccion;
+    if(nodo->transaccion != nullptr) {
+        delete nodo->transaccion;
+        nodo->transaccion = nullptr;
+    }
     delete nodo;
+    nodo = nullptr;
     
 }
 

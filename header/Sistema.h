@@ -40,7 +40,8 @@ class Sistema {
         int obtenerCantUbiSospechosa();
         void generarReportes();
         void obtenerTransaccionesSospechosas(NodoTransaccion* nodo);
-        NodoTransaccion* obtenerRaiz();
+        NodoTransaccion* obtenerRaizArbolCliente();
+        NodoTransaccion* obtenerRaizArbolGeneral();
         void actualizarDatos(NodoTransaccion* nodo,const string &nArchivo);
         void actualizarDatosConRecursion(NodoTransaccion *nodoT, ofstream &archivo);
         void cargarDatos(const string& archivo);

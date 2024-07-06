@@ -23,7 +23,6 @@ class Transaccion {
     public: 
         Transaccion(string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion);
         Transaccion(int idTransaccion, string cuentaDeOrigen, string cuentaDeDestino, int monto, string ubicacion, time_t horaTransaccion);
-        ~Transaccion();
         string getCuentaDeOrigen() const;
         string getCuentaDeDestino() const;
         int getMontoTransaccion() const;
@@ -40,6 +39,6 @@ class Transaccion {
         bool esSospechosa();
         void setSospecha(bool sospecha);
         string obtenerFechaLegible();
-        void setFechaYHoraTransaccion2(time_t fechaHora);
+        
 
 };
