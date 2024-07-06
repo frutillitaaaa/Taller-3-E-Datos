@@ -98,7 +98,6 @@ void ArbolTransacciones::contarTEnHora(NodoTransaccion *nodo)
 void ArbolTransacciones::contarUbiEnDia(NodoTransaccion *nodo)
 {
     if(nodo == nullptr || nodo->transaccion == nullptr){
-        cerr<<"Nodo Transaccion no valido"<<endl;
         return;
     }
     if(nodo->tizquierda != nullptr && nodo->tizquierda->transaccion->getFechaYHoraTransaccion()-nodo->transaccion->getFechaYHoraTransaccion()<86400){
